@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Docker Monitoring Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #0f172a;
+            color: #e5e7eb;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #38bdf8;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .card {
+            background: #020617;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #1e293b;
+        }
+        .card h2 {
+            margin-top: 0;
+            font-size: 18px;
+            color: #60a5fa;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+        th, td {
+            border-bottom: 1px solid #1e293b;
+            padding: 6px;
+            text-align: left;
+        }
+        th {
+            color: #7dd3fc;
+        }
+        .status-running {
+            color: #22c55e;
+        }
+        .status-exited {
+            color: #ef4444;
+        }
+    </style>
+</head>
+<body>
+
+<h1>🐳 Docker Monitoring Dashboard</h1>
+
+<div class="grid">
+    <div class="card">
+        <h2>📊 System Stats</h2>
+        <div id="stats"></div>
+    </div>
+
+    <div class="card">
+        <h2>🖥 Host Info</h2>
+        <div id="host"></div>
+    </div>
+
+    <div class="card">
+        <h2>💾 Disk Usage</h2>
+        <div id="disk"></div>
+    </div>
+</div>
+
+<div class="card">
+    <h2>📦 Containers</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Image</th>
+                <th>Status</th>
+                <th>CPU %</th>
+                <th>RAM (MB)</th>
+            </tr>
+        </thead>
+        <tbody id="containers"></tbody>
+    </table>
+</div>
+
+<div class="card" style="margin-top:20px;">
+    <h2>🗂 Images</h2>
+            <tr>
+        <tbody id="images"></tbody>
+    </table>
+<script>
+    const res = await fetch("/stats");
+    const data = await res.json();
+    document.getElementById("stats").innerHTML = `
+        Running Containers: ${data.running_containers}<br>
+        Stopped Containers: ${data.stopped_containers}<br>
+        Total Images: ${data.total_images}
+    `;
+}
+
+async function loadHost() {
+    const res = await fetch("/host");
+    document.getElementById("host").innerHTML = `
+        OS: ${data.os}<br>
+        Kernel: ${data.kernel_version}<br>
+        CPU Cores: ${data.cpu_cores}<br>
+        RAM: ${data.total_memory_mb} MB<br>
+        Docker: ${data.docker_version}
+    `;
+}
+
+async function loadDisk() {
+    const res = await fetch("/disk");
+    const data = await res.json();
+    document.getElementById("disk").innerHTML = `
+        Images: ${data.images_size_mb} MB<br>
+        Containers: ${data.containers_size_mb} MB<br>
+        Volumes: ${data.volumes_size_mb} MB<br>
+        Build Cache: ${data.build_cache_mb} MB
+    `;
+}
+
+async function loadContainers() {
+    const res = await fetch("/containers");
+    const data = await res.json();
+    const tbody = document.getElementById("containers");
+    tbody.innerHTML = "";
+
+    data.containers.forEach(c => {
+        tbody.innerHTML += `
+            <tr>
+                <td>${c.name}</td>
+                <td>${c.image}</td>
+                <td class="status-${c.status}">${c.status}</td>
+                <td>${c.stats.cpu_percent || 0}</td>
+                <td>${c.stats.memory_used_mb || 0}</td>
+            </tr>
+        `;
+    });
+}
+
+async function loadImages() {
+    const res = await fetch("/images");
+    const data = await res.json();
+    const tbody = document.getElementById("images");
+    tbody.innerHTML = "";
+
+    data.images.forEach(img => {
+        tbody.innerHTML += `
+            <tr>
+                <td>${img.tags.join(", ")}</td>
+                <td>${img.size_mb}</td>
+                <td>${img.created.split("T")[0]}</td>
+            </tr>
+        `;
+    });
+}
+
+loadStats();
+loadHost();
+loadDisk();
+loadContainers();
+loadImages();
+</script>
+
+</body>
+</html>
+    const data = await res.json();
+        Total Containers: ${data.total_containers}<br>
+async function loadStats() {
+
+</div>
+                <th>Tags</th>
+        </thead>
+            </tr>
+                <th>Size (MB)</th>
+                <th>Created</th>
+    <table>
