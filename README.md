@@ -81,8 +81,8 @@ DockPulse monitors:
 
 ### 1️⃣ Clone Repository
 ```bash
-git clone https://github.com/<your-username>/DockPulse.git
-cd DockPulse
+git clone https://github.com/Shivamgarud8/Docker-Health-Guard.git
+cd Docker-Health-Guard
 ```
 
 ---
