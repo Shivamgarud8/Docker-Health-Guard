@@ -84,7 +84,6 @@ DockPulse monitors:
 git clone https://github.com/Shivamgarud8/Docker-Health-Guard.git
 cd Docker-Health-Guard
 ```
-
 ---
 👩‍🏫 **Guided and Supported by [Trupti Mane Ma’am](https://github.com/iamtruptimane)**  
 ---
@@ -95,3 +94,5 @@ cd Docker-Health-Guard
 💼 *Automating deployments, one pipeline at a time!*  
 🌐 [GitHub Profile](https://github.com/Shivamgarud8)
 🌐 [Medium blog](https://medium.com/@shivam.garud2011)
+🌐[Medium blog](https://medium.com/@shivam.garud2011)
+
